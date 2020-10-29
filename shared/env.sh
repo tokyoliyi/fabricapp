@@ -19,3 +19,6 @@ export FABRIC_CA_CLIENT_HOME=/etc/fabricapp/client
 export FABRIC_CA_ADMIN=caadmin
 export FABRIC_CA_PASSWD=capasswd
 export FABRIC_CA_PORT=7054
+
+# fabric tls ca server
+export TLS_CA_SERVER_HOST=tlsca.fabric.test:$FABRIC_CA_PORT

@@ -1,0 +1,25 @@
+version: '3.6'
+
+networks:
+    mytest:
+        external:
+            name: $DOCKER_NETWORK_NAME
+
+services:
+  rca:
+    image: hyperledger/fabric-ca:$FABRIC_CA_VERSION
+    container_name: $CONTAINER_NAME
+    command: sh -c 'fabric-ca-server start -d -b $FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD --cfg.affiliations.allowremove --cfg.identities.allowremove --port $FABRIC_CA_PORT'
+    environment:
+      - FABRIC_CA_HOME=$FABRIC_CA_SERVER_HOME
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=$CSR_CN
+      - FABRIC_CA_SERVER_CSR_HOSTS=$CSR_HOSTS
+      - FABRIC_CA_SERVER_DEBUG=true
+    volumes:
+      - ../volume/server:$FABRIC_CA_SERVER_HOME
+      - ../volume/client:$FABRIC_CA_CLIENT_HOME
+    networks:
+      - mytest
+    ports:
+      - $FABRIC_CA_PORT:$FABRIC_CA_PORT
