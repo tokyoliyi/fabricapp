@@ -1,17 +1,21 @@
 #!/bin/bash
 
 # import system wide env.sh
-. ../../shared/env.sh 
+./init.sh
 
-export CONTAINER_NAME=tlsca
-export CSR_CN=tlsca.fabric.test
-export CSR_HOSTS=tlsca.fabric.test,0.0.0.0
+. ./env.sh
 
-# default start on foreground
-if [ -z $1 ]; then
-    docker-compose -f ca.yaml up
-else
-    docker-compose -f ca.yaml up -d
-fi
+# start ca docker
+./1step.sh
 
+echo "sleep 3s"
+sleep 3
+
+# enroll admin and
+# register user identity
 ./2step.sh
+
+# copy admin's tls-ca-cert.pem to /tmp/
+cp ../volume/client/admin/msp/tlscacerts/tls-ca-cert.pem /tmp/
+
+echo "Start done."

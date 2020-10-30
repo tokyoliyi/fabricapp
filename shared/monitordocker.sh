@@ -5,7 +5,7 @@
 #
 # More information at https://github.com/gliderlabs/logspout/tree/master/httpstream
 
-. ./env.sh
+. ./global.env
 
 DOCKER_NETWORK=$DOCKER_NETWORK_NAME
 
