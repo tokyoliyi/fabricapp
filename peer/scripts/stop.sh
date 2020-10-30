@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # import system wide env.sh
-. ../../shared/env.sh 
+
 . ./env.sh
 
 docker-compose -f ca.yaml down
+docker-compose -f peer.yaml down
+
+sudo rm -rf ../volume/*

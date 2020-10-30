@@ -3,13 +3,12 @@
 # enroll tls, dump out tls-msp for current peer
 # we need to connect tls ca server
 # use the tls-ca-cert.pem ca file
-. /tmp/globalenv.sh
-. /tmp/localenv.sh
+. /tmp/env.sh
 
 RAW_FABRIC_CA_CLIENT_HOME=$FABRIC_CA_CLIENT_HOME
 
-export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/peer0
-export FABRIC_CA_CLIENT_MSPDIR=$RAW_FABRIC_CA_CLIENT_HOME/peer0/tls-msp
+export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/$PEER_NAME
+export FABRIC_CA_CLIENT_MSPDIR=$RAW_FABRIC_CA_CLIENT_HOME/$PEER_NAME/tls-msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=/tmp/tls-ca-cert.pem
 
 rm -rf $FABRIC_CA_CLIENT_MSPDIR

@@ -2,16 +2,15 @@
 
 # enroll ca server admin account, export msp to ../volume/admin
 
-. /tmp/globalenv.sh
-. /tmp/localenv.sh
+. /tmp/env.sh
 
 HOST=0.0.0.0:$FABRIC_CA_PORT
 RAW_FABRIC_CA_CLIENT_HOME=$FABRIC_CA_CLIENT_HOME
 
 # set environment values for fabric-ca-client
 # in order to be more clearly, we use absolute path
-export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/admin
-export FABRIC_CA_CLIENT_MSP=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp
+export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/$FABRIC_CA_ADMIN
+export FABRIC_CA_CLIENT_MSP=$RAW_FABRIC_CA_CLIENT_HOME/$FABRIC_CA_ADMIN/msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_SERVER_HOME/ca-cert.pem
 
 # if exist admin's msp, delete it 
