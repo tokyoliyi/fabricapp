@@ -9,7 +9,7 @@ services:
   tlsca:
     image: hyperledger/fabric-ca:$FABRIC_CA_VERSION
     container_name: $CONTAINER_NAME
-    command: sh -c 'fabric-ca-server start -d -b $FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD --cfg.affiliations.allowremove --cfg.identities.allowremove --port $FABRIC_CA_PORT'
+    command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && fabric-ca-server start -d -b $FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD --cfg.affiliations.allowremove --cfg.identities.allowremove --port $FABRIC_CA_PORT'
     environment:
       - FABRIC_CA_HOME=$FABRIC_CA_SERVER_HOME
       - FABRIC_CA_SERVER_TLS_ENABLED=true
@@ -19,6 +19,7 @@ services:
     volumes:
       - ../volume/server:$FABRIC_CA_SERVER_HOME
       - ../volume/client:$FABRIC_CA_CLIENT_HOME
+      - /etc/hosts:/etc/extra_hosts
     networks:
       - mytest
     ports:

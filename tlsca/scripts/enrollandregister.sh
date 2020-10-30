@@ -13,7 +13,7 @@ REG_PEERS=("peer0.org1.fabric.test" "peer0.org2.fabric.test" "peer0.org3.fabric.
 # set environment values for fabric-ca-client
 # in order to be more clearly, we use absolute path
 export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/admin
-export FABRIC_CA_CLIENT_MSP=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp
+export FABRIC_CA_CLIENT_MSPDIR=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_SERVER_HOME/ca-cert.pem
 
 # if exist admin's msp, delete it 
@@ -38,7 +38,7 @@ chmod 757 -R $FABRIC_CA_CLIENT_HOME
 # though client/admin/msp/tlscacerts/tls-ca-cert.pem is totally equal server/ca-cert.pem
 # but in order to be more clearly, we use admin's tls-ca-cert.pem as certificate file
 export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/admin
-export FABRIC_CA_CLIENT_MSP=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp
+export FABRIC_CA_CLIENT_MSPDIR=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp/tlscacerts/tls-ca-cert.pem
 
 for idx in "${REG_PEERS[@]}"
