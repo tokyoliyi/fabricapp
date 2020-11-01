@@ -13,7 +13,7 @@ export FABRIC_CA_CLIENT_TLS_CERTFILES=/tmp/tls-ca-cert.pem
 
 rm -rf $FABRIC_CA_CLIENT_MSPDIR
 
-fabric-ca-client enroll -d -u https://$TLS_USER_ID:$TLS_USER_PASSWD@$TLS_CA_SERVER_HOST --enrollment.profile tls --csr.hosts '*.fabric.test'
+fabric-ca-client enroll -d -u https://$TLS_USER_ID:$TLS_USER_PASSWD@$TLS_CA_SERVER_HOST --enrollment.profile tls --csr.hosts $TLS_USER_ID
 
 # rename keystore and tlscacerts's file
 mv $FABRIC_CA_CLIENT_MSPDIR/keystore/*_sk $FABRIC_CA_CLIENT_MSPDIR/keystore/key.pem
@@ -24,4 +24,4 @@ mv $FABRIC_CA_CLIENT_MSPDIR/tlscacerts/*.pem $FABRIC_CA_CLIENT_MSPDIR/tlscacerts
 # default docker volume's user/group is root
 # but the host's current user to need to modify this msp
 # so we need to rewrite the `other group` permission
-chmod 757 -R $FABRIC_CA_CLIENT_HOME
+chmod 757 -R $RAW_FABRIC_CA_CLIENT_HOME

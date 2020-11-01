@@ -25,12 +25,14 @@ docker cp ./env.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./enrollTLS.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./enrollCaAdmin.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./registerUser.sh $CA_CONTAINER_NAME:/tmp
+docker cp ./generateOrgMSP.sh $CA_CONTAINER_NAME:/tmp
 
 docker exec $CA_CONTAINER_NAME sh -c "chown root:root /tmp/*.sh"
 docker exec $CA_CONTAINER_NAME sh -c "chmod +x /tmp/*.sh"
 
 # enroll current org ca's admin
 echo "enroll current org's ca admin"
+sleep 2
 docker exec $CA_CONTAINER_NAME sh -c "/tmp/enrollCaAdmin.sh"
 
 # 2. register/enroll peer for current org
@@ -40,10 +42,16 @@ docker exec $CA_CONTAINER_NAME sh -c "/tmp/registerUser.sh"
 
 # 3. enroll peer's tls msp
 echo "enroll tls, get tls msp"
-docker exec $CA_CONTAINER_NAME sh -c "/tmp/enrollTLS.sh"
 sleep 2
+docker exec $CA_CONTAINER_NAME sh -c "/tmp/enrollTLS.sh"
 
-# 4. start peer docker container
+# 4. generate org's msp structure
+# org's msp contain all certificate files(public file)
+echo "generate org's msp structure"
+sleep 2
+docker exec $CA_CONTAINER_NAME sh -c "/tmp/generateOrgMSP.sh"
+
+# 5. start peer docker container
 echo "Start peer and couchdb..."
 docker-compose -f peer.yaml up -d
 
