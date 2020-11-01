@@ -7,7 +7,7 @@ MSPDIR=$FABRIC_CA_CLIENT_HOME/msp
 mkdir -p $MSPDIR/{admincerts,cacerts,tlscacerts,users}
 
 # admidcerts/ file come from admin's signcerts/cert.pem
-cp $FABRIC_CA_CLIENT_HOME/$ORG_ADMIN_USER_NAME/msp/signcerts/cert.pem $MSPDIR/admincerts/cert.pem
+cp $FABRIC_CA_CLIENT_HOME/$ORG_ADMIN_USER_NAME/msp/signcerts/cert.pem $MSPDIR/admincerts/admin-cert.pem
 
 # cacerts come from current org ca server 's ca-cert.pem
 # but we use cadmin's cacerts/ca-cert.pem file, though they are equal

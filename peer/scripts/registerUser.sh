@@ -46,9 +46,9 @@ fabric-ca-client enroll -d -u https://${peer_name}:$PEER_PASSWD@$CA_HOST
 mv $FABRIC_CA_CLIENT_MSPDIR/keystore/*_sk $FABRIC_CA_CLIENT_MSPDIR/keystore/key.pem
 mv $FABRIC_CA_CLIENT_MSPDIR/cacerts/* $FABRIC_CA_CLIENT_MSPDIR/cacerts/ca-cert.pem
 
-# copy admin's cert to peer's admincerts
+# copy admin's sign cert to peer's admincerts
 mkdir -p $FABRIC_CA_CLIENT_MSPDIR/admincerts
-cp $RAW_FABRIC_CA_CLIENT_HOME/$ORG_ADMIN_USER_NAME/msp/admincerts/cert.pem $FABRIC_CA_CLIENT_MSPDIR/admincerts/cert.pem
+cp $RAW_FABRIC_CA_CLIENT_HOME/$ORG_ADMIN_USER_NAME/msp/signcerts/cert.pem $FABRIC_CA_CLIENT_MSPDIR/admincerts/admin-cert.pem
 
 # print user list
 export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/$FABRIC_CA_ADMIN
