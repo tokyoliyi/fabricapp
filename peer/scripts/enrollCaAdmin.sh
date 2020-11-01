@@ -4,7 +4,7 @@
 
 . /tmp/env.sh
 
-HOST=0.0.0.0:$FABRIC_CA_PORT
+CA_HOST=localhost:$FABRIC_CA_PORT
 RAW_FABRIC_CA_CLIENT_HOME=$FABRIC_CA_CLIENT_HOME
 
 # set environment values for fabric-ca-client
@@ -16,8 +16,8 @@ export FABRIC_CA_CLIENT_TLS_CERTFILES=$FABRIC_CA_SERVER_HOME/ca-cert.pem
 # if exist admin's msp, delete it 
 rm -rf $FABRIC_CA_CLIENT_HOME
 
-# fabric-ca-client enroll -d -u https://$FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD@$HOST --enrollment.profile tls --csr.hosts '*.fabric.test'
-fabric-ca-client enroll -d -u https://$FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD@$HOST
+# fabric-ca-client enroll -d -u https://$FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD@$CA_HOST --enrollment.profile tls --csr.hosts '*.fabric.test'
+fabric-ca-client enroll -d -u https://$FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD@$CA_HOST
 
 # rename keystore and cacerts's file
 mv $FABRIC_CA_CLIENT_MSP/keystore/*_sk $FABRIC_CA_CLIENT_MSP/keystore/key.pem
