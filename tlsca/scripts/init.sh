@@ -12,20 +12,15 @@ USER_ENV=./user.env
 cp $GLOBAL_ENV /tmp/global.env
 cp $LOCAL_ENV /tmp/local.env
 
-
-echo "#!/bin/bash" > /tmp/env.sh
-
-echo "# megre global.env" >> /tmp/env.sh
-cat /tmp/global.env >> /tmp/env.sh
-
-echo "# merge local.env" >> /tmp/env.sh
-cat /tmp/local.env >> /tmp/env.sh
+if [ -f "/tmp/user.env" ]; then
+    rm /tmp/user.env
+fi
 
 if [ -f "$USER_ENV" ]; then
     cp $USER_ENV /tmp/user.env
-    echo "# merge user.env" >> /tmp/env.sh
-    cat /tmp/user.env >> /tmp/env.sh
 fi
+
+/usr/bin/env python mergeEnv.py
 
 cp /tmp/env.sh ./env.sh
 

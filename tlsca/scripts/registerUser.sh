@@ -9,9 +9,9 @@ RAW_FABRIC_CA_CLIENT_HOME=$FABRIC_CA_CLIENT_HOME
 # first we need to set admin's msp dir as current working dir
 # though client/admin/msp/tlscacerts/tls-ca-cert.pem is totally equal server/ca-cert.pem
 # but in order to be more clearly, we use admin's tls-ca-cert.pem as certificate file
-export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/admin
-export FABRIC_CA_CLIENT_MSPDIR=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp
-export FABRIC_CA_CLIENT_TLS_CERTFILES=$RAW_FABRIC_CA_CLIENT_HOME/admin/msp/tlscacerts/tls-ca-cert.pem
+export FABRIC_CA_CLIENT_HOME=$RAW_FABRIC_CA_CLIENT_HOME/$FABRIC_CA_ADMIN
+export FABRIC_CA_CLIENT_MSPDIR=$RAW_FABRIC_CA_CLIENT_HOME/$FABRIC_CA_ADMIN/msp
+export FABRIC_CA_CLIENT_TLS_CERTFILES=$RAW_FABRIC_CA_CLIENT_HOME/$FABRIC_CA_ADMIN/msp/tlscacerts/tls-ca-cert.pem
 
 for idx in "${REG_PEERS[@]}"
 do

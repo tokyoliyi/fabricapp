@@ -6,16 +6,29 @@
 . ./env.sh
 
 # start ca docker
-./1step.sh
-
+docker-compose -f ca.yaml up -d
+echo "Fabric CA Server started..."
 echo "sleep 3s"
 sleep 3
 
-# enroll admin and
-# register user identity
-./2step.sh
+# copy all needed scripts to /tmp/
+# first remove old/remain files
+docker exec $CA_CONTAINER_NAME sh -c "cd /tmp && rm -f *.sh"
+
+docker cp ./env.sh $CA_CONTAINER_NAME:/tmp
+docker cp ./enrollCaAdmin.sh $CA_CONTAINER_NAME:/tmp/enrollCaAdmin.sh
+docker cp ./registerUser.sh $CA_CONTAINER_NAME:/tmp/registerUser.sh
+
+docker exec $CA_CONTAINER_NAME sh -c "chown root:root /tmp/*.sh"
+docker exec $CA_CONTAINER_NAME sh -c "chmod +x /tmp/*.sh"
+
+# enroll ca admin
+docker exec $CA_CONTAINER_NAME sh -c "/tmp/enrollCaAdmin.sh"
+
+# register tls account for peer
+docker exec $CA_CONTAINER_NAME sh -c "/tmp/registerUser.sh"
 
 # copy admin's tls-ca-cert.pem to /tmp/
-cp ../volume/client/admin/msp/tlscacerts/tls-ca-cert.pem /tmp/
+cp $HOST_VOLUME_CLIENT/$FABRIC_CA_ADMIN/msp/tlscacerts/tls-ca-cert.pem /tmp/
 
 echo "Start done."
