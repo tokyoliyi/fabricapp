@@ -19,13 +19,16 @@ services:
   peer:
     image: hyperledger/fabric-peer:$FABRIC_PEER_VERSION
     container_name: $PEER_CONTAINER_NAME
+    command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && peer node start'
     restart: unless-stopped
+    tty: true
     environment:
         - CORE_PEER_ID=${PEER_CONTAINER_NAME}
         - CORE_PEER_ADDRESS=${PEER_CONTAINER_NAME}:${PEER_PORT}
         - CORE_PEER_LISTENADDRESS=0.0.0.0:${PEER_PORT}
         - CORE_PEER_LOCALMSPID=${ORG_MSPID}
         - CORE_PEER_MSPCONFIGPATH=$FABRIC_CA_CLIENT_HOME/$PEER_NAME/msp
+        - CORE_PEER_TLS_ENABLED=true
         - CORE_PEER_TLS_CERT_FILE=$FABRIC_CA_CLIENT_HOME/${PEER_NAME}/tls-msp/signcerts/cert.pem
         - CORE_PEER_TLS_KEY_FILE=$FABRIC_CA_CLIENT_HOME/${PEER_NAME}/tls-msp/keystore/key.pem
         - CORE_PEER_TLS_ROOTCERT_FILE=$FABRIC_CA_CLIENT_HOME/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
@@ -34,7 +37,6 @@ services:
         - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:${PEER_CHAINCODE_PORT}
         - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
         - FABRIC_LOGGING_SPEC=INFO
-        - CORE_PEER_TLS_ENABLED=true
         - CORE_PEER_GOSSIP_USELEADERELECTION=true
         - CORE_PEER_GOSSIP_ORGLEADER=false
         - CORE_PEER_PROFILE_ENABLED=true
@@ -52,3 +54,29 @@ services:
         - $PEER_PORT3:$PEER_PORT3
     depends_on:
         - couchdb
+
+  cli:
+    image: hyperledger/fabric-tools:$FABRIC_PEER_VERSION
+    container_name: cli
+    command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && /bin/bash'
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    environment:
+        - CORE_PEER_ID=cli
+        - CORE_PEER_ADDRESS=${PEER_CONTAINER_NAME}:${PEER_PORT}
+        - CORE_PEER_LOCALMSPID=${ORG_MSPID}
+        - CORE_PEER_MSPCONFIGPATH=$FABRIC_CA_CLIENT_HOME/$PEER_NAME/msp
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_CERT_FILE=$FABRIC_CA_CLIENT_HOME/${PEER_NAME}/tls-msp/signcerts/cert.pem
+        - CORE_PEER_TLS_KEY_FILE=$FABRIC_CA_CLIENT_HOME/${PEER_NAME}/tls-msp/keystore/key.pem
+        - CORE_PEER_TLS_ROOTCERT_FILE=$FABRIC_CA_CLIENT_HOME/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - FABRIC_LOGGING_SPEC=INFO
+    working_dir: $FABRIC_CA_CLIENT_HOME/cli
+    volumes:
+        - $HOST_ETC_HOSTS:/etc/extra_hosts
+        - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
+        - $HOST_VOLUME_CLIENT/../:$FABRIC_CA_CLIENT_HOME/../
+    networks:
+        - mytest
