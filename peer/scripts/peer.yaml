@@ -77,6 +77,5 @@ services:
     volumes:
         - $HOST_ETC_HOSTS:/etc/extra_hosts
         - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
-        - $HOST_VOLUME_CLIENT/../:$FABRIC_CA_CLIENT_HOME/../
     networks:
         - mytest
