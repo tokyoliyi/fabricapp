@@ -76,5 +76,6 @@ services:
     working_dir: $FABRIC_CA_CLIENT_HOME/cli
     volumes:
         - $HOST_ETC_HOSTS:/etc/extra_hosts
+        - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME/cli
     networks:
         - mytest
