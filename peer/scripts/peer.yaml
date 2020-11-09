@@ -73,9 +73,9 @@ services:
         - CORE_PEER_TLS_ROOTCERT_FILE=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
         - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
         - FABRIC_LOGGING_SPEC=INFO
-    working_dir: $FABRIC_CA_CLIENT_HOME/cli
+    working_dir: $FABRIC_CA_CLIENT_HOME
     volumes:
         - $HOST_ETC_HOSTS:/etc/extra_hosts
-        - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME/cli
+        - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
     networks:
         - mytest
