@@ -74,8 +74,8 @@ docker exec $CLI_CONTAINER_NAME sh -c "${CLI_WORKING_DIR}/createGenesisBlock.sh"
 
 # 6. generate orderer genesis block 
 
-# # 5. start peer docker container
-# echo "Start peer and couchdb..."
-# docker-compose -f peer.yaml up -d
+# 5. start peer docker container
+echo "Start peer and couchdb..."
+docker-compose -f orderer.yaml up
 
 echo "Start done."
