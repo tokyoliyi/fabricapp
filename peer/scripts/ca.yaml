@@ -5,7 +5,7 @@ networks:
         name: $DOCKER_NETWORK_NAME
 
 services:
-  rca:
+  rca.peer:
     image: hyperledger/fabric-ca:$FABRIC_CA_VERSION
     container_name: $CA_CONTAINER_NAME
     command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && fabric-ca-server start -d -b $FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD --cfg.affiliations.allowremove --cfg.identities.allowremove --port $FABRIC_CA_PORT'

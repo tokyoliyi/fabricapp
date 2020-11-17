@@ -55,7 +55,7 @@ services:
     depends_on:
         - couchdb
 
-  cli:
+  cli.peer:
     image: hyperledger/fabric-tools:$FABRIC_PEER_VERSION
     container_name: cli
     command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && /bin/bash'

@@ -5,7 +5,7 @@ networks:
         name: $DOCKER_NETWORK_NAME
 
 services:
-    cli:
+    cli.orderer:
         image: hyperledger/fabric-tools:$FABRIC_PEER_VERSION
         container_name: $CLI_CONTAINER_NAME
         command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && /bin/bash'

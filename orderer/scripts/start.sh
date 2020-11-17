@@ -74,7 +74,7 @@ docker exec $CLI_CONTAINER_NAME sh -c "${CLI_WORKING_DIR}/createGenesisBlock.sh"
 
 # 6. start peer docker container
 echo "Start orderer node..."
-docker-compose -f orderer.yaml up
+docker-compose -f orderer.yaml up -d
 
 # 7.
 sudo chown -R ${USER}:${GROUP} $HOST_VOLUME_BASE
