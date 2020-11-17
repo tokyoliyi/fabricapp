@@ -230,8 +230,8 @@ Orderer: &OrdererDefaults
         Consenters:
         - Host: orderer0.org0.fabric.test
           Port: 7050
-          ClientTLSCert: /etc/fabricapp/client/org0/orderer0/tls-msp/signcerts/cert.pem
-          ServerTLSCert: /etc/fabricapp/client/org0/orderer0/tls-msp/signcerts/cert.pem
+          ClientTLSCert: /etc/fabricapp/client/org0/peers/orderer0/tls-msp/signcerts/cert.pem
+          ServerTLSCert: /etc/fabricapp/client/org0/peers/orderer0/tls-msp/signcerts/cert.pem
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s

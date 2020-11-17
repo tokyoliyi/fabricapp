@@ -33,6 +33,7 @@ docker cp ./enrollTLS.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./enrollCaAdmin.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./registerUser.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./generateOrgMSP.sh $CA_CONTAINER_NAME:/tmp
+docker cp ./examplemspconfig.yaml $CA_CONTAINER_NAME:/tmp
 
 docker exec $CA_CONTAINER_NAME sh -c "chown root:root /tmp/*.sh"
 docker exec $CA_CONTAINER_NAME sh -c "chmod +x /tmp/*.sh"
@@ -71,11 +72,11 @@ docker exec $CLI_CONTAINER_NAME sh -c "chown root:root ${CLI_WORKING_DIR}/*.sh"
 docker exec $CLI_CONTAINER_NAME sh -c "chmod +x ${CLI_WORKING_DIR}/*.sh"
 docker exec $CLI_CONTAINER_NAME sh -c "${CLI_WORKING_DIR}/createGenesisBlock.sh"
 
-
-# 6. generate orderer genesis block 
-
-# 5. start peer docker container
-echo "Start peer and couchdb..."
+# 6. start peer docker container
+echo "Start orderer node..."
 docker-compose -f orderer.yaml up
+
+# 7.
+sudo chown -R ${USER}:${GROUP} $HOST_VOLUME_BASE
 
 echo "Start done."
