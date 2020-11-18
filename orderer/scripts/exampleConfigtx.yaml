@@ -113,6 +113,40 @@ Organizations:
             - Host: peer0.org2.fabric.test
               Port: 7051
 
+    - &Org3
+        # DefaultOrg defines the organization which is used in the sampleconfig
+        # of the fabric.git development environment
+        Name: org3msp
+
+        # ID to load the MSP definition as
+        ID: org3msp
+
+        MSPDir: /etc/fabricapp/client/org3/msp
+
+        # Policies defines the set of policies at this level of the config tree
+        # For organization policies, their canonical path is usually
+        #   /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('org3msp.admin', 'org3msp.peer', 'org3msp.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('org3msp.admin', 'org3msp.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('org3msp.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('org3msp.peer')"
+
+        AnchorPeers:
+            # AnchorPeers defines the location of peers which can be used
+            # for cross org gossip communication.  Note, this value is only
+            # encoded in the genesis block in the Application section context
+            - Host: peer0.org3.fabric.test
+              Port: 7051
+
 ################################################################################
 #
 #   SECTION: Capabilities
@@ -329,6 +363,7 @@ Profiles:
                 Organizations:
                     - *Org1
                     - *Org2
+                    - *Org3
     SampleChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
@@ -337,5 +372,6 @@ Profiles:
             Organizations:
                 - *Org1
                 - *Org2
+                - *Org3
             Capabilities:
                 <<: *ApplicationCapabilities
