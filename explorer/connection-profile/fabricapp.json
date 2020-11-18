@@ -1,0 +1,57 @@
+{
+	"name": "fabricapp",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "exploreradmin",
+			"password": "exploreradminpw"
+		},
+		"enableAuthentication": true,
+		"organization": "org1msp",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"appchannel": {
+			"peers": {
+				"peer0.org1.fabric.test": {}
+			},
+			"connection": {
+				"timeout": {
+					"peer": {
+						"endorser": "6000",
+						"eventHub": "6000",
+						"eventReg": "6000"
+					}
+				}
+			}
+		}
+	},
+	"organizations": {
+		"org1msp": {
+			"mspid": "org1msp",
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/users/admin/keystore/key.pem"
+			},
+			"peers": ["peer0.org1.fabric.test"],
+			"signedCert": {
+				"path": "/tmp/crypto/users/admin/signcerts/cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"peer0.org1.fabric.test": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/tls/tls-ca-cert.pem"
+			},
+			"url": "grpcs://peer0.org1.fabric.test:7051"
+		}
+	}
+}

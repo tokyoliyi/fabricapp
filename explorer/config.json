@@ -1,0 +1,9 @@
+{
+	"network-configs": {
+		"fabricapp": {
+			"name": "fabricapp",
+			"profile": "./connection-profile/fabricapp.json"
+		}
+	},
+	"license": "Apache-2.0"
+}
