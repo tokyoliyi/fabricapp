@@ -7,4 +7,4 @@
 docker-compose -f ca.yaml down
 docker-compose -f peer.yaml down
 
-sudo rm -rf ../volume/*
+rm -rf ../volume/*

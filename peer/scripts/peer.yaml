@@ -9,6 +9,7 @@ services:
     image: couchdb:$COUCHDB_VERSION
     container_name: $COUCHDB_CONTAINER_NAME
     environment:
+        - TZ=$TIMEZONE
         - COUCHDB_USER=$COUCHDB_ADMIN
         - COUCHDB_PASSWORD=$COUCHDB_PASSWD
     networks:
@@ -23,6 +24,7 @@ services:
     restart: unless-stopped
     tty: true
     environment:
+        - TZ=$TIMEZONE
         - CORE_PEER_ID=${PEER_CONTAINER_NAME}
         - CORE_PEER_ADDRESS=${PEER_CONTAINER_NAME}:${PEER_PORT}
         - CORE_PEER_LISTENADDRESS=0.0.0.0:${PEER_PORT}
@@ -63,6 +65,7 @@ services:
     stdin_open: true
     restart: unless-stopped
     environment:
+        - TZ=$TIMEZONE
         - CORE_PEER_ID=cli
         - CORE_PEER_ADDRESS=${PEER_CONTAINER_NAME}:${PEER_PORT}
         - CORE_PEER_LOCALMSPID=${ORG_MSPID}
