@@ -24,6 +24,7 @@ docker run -d --name="logspout" \
 	--volume=/var/run/docker.sock:/var/run/docker.sock \
 	--publish=127.0.0.1:${PORT}:80 \
 	--network  ${DOCKER_NETWORK} \
+    -e TZ=Asia/Shanghai \
 	gliderlabs/logspout
 sleep 3
 curl http://127.0.0.1:${PORT}/logs
