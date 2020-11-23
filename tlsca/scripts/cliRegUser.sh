@@ -45,4 +45,4 @@ docker exec \
     -e FABRIC_CA_CLIENT_HOME=$CLIENT_HOME \
     -e FABRIC_CA_CLIENT_MSPDIR=$MSPDIR \
     -e FABRIC_CA_CLIENT_TLS_CERTFILES=$TLS_CERT_FILE \
-    tlsca fabric-ca-client register -d --id.name $USERNAME --id.secret $PASSWD --id.type $TYPE -u https://$TLS_CA_SERVER_HOST
+    $CA_CONTAINER_NAME fabric-ca-client register -d --id.name $USERNAME --id.secret $PASSWD --id.type $TYPE -u https://$TLS_CA_SERVER_HOST
