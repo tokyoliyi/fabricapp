@@ -55,4 +55,8 @@ docker-compose -f peer.yaml up -d
 # 6. modify file/folder permission
 sudo chown -R ${USER}:${GROUP} $HOST_VOLUME_BASE
 
+# 7. generate connection profile
+echo "Generate connection profile..."
+./ccpGenerate.sh
+
 echo "Start done."
