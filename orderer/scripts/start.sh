@@ -33,7 +33,7 @@ docker cp ./enrollTLS.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./enrollCaAdmin.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./registerUser.sh $CA_CONTAINER_NAME:/tmp
 docker cp ./generateOrgMSP.sh $CA_CONTAINER_NAME:/tmp
-docker cp ./examplemspconfig.yaml $CA_CONTAINER_NAME:/tmp
+docker cp ./config/configmsp.yaml $CA_CONTAINER_NAME:/tmp/examplemspconfig.yaml
 
 docker exec $CA_CONTAINER_NAME sh -c "chown root:root /tmp/*.sh"
 docker exec $CA_CONTAINER_NAME sh -c "chmod +x /tmp/*.sh"

@@ -32,7 +32,6 @@ services:
         volumes:
             - $HOST_ETC_HOSTS:/etc/extra_hosts
             - $HOST_VOLUME_CLIENT/peers/${PEER_NAME}:$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}
-            - $CLI_HOST_VOLUME:$CLI_VM_VOLUME
         networks:
             - mytest
         ports:
