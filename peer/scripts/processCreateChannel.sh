@@ -33,6 +33,8 @@ export TLS_CA_FILE=${FABRIC_CA_CLIENT_HOME}/peers/${PEER_NAME}/tls-msp/tlscacert
 peer channel create -c $APP_CHANNEL_NAME -f $INIT_CHANNEL_TX -o $ORDERER_HOST --outputBlock ${APP_CHANNEL_NAME}.block --tls true --cafile $TLS_CA_FILE
 peer channel join -b ${APP_CHANNEL_NAME}.block
 
+time sleep 3
+
 # update anchor peer
 peer channel update -o $ORDERER_HOST --ordererTLSHostnameOverride $ORDERER_TLS_HOST -c $APP_CHANNEL_NAME -f $ANCHORS_FILE --tls true --cafile $TLS_CA_FILE
 
