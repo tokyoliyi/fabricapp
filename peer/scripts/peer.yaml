@@ -83,6 +83,6 @@ services:
     volumes:
         - $HOST_ETC_HOSTS:/etc/extra_hosts
         - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
-        - $CHAINCODE_HOST_PATH:$CLI_CHAINCODE_PATH
+        - $CHAINCODE_HOST_PATH:$CHAINCODE_CLI_PATH
     networks:
         - mytest

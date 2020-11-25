@@ -2,6 +2,7 @@
 
 export EXPLORER_VERSION=1.1.3
 export HOST_ETC_HOSTS=/etc/hosts
+export TIMEZONE=Asia/Shanghai
 
 # check if crypto exist
 

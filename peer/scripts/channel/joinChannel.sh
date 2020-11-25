@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./env.sh
+. ../env.sh
 
 # prepare appchannel.block and anchors.tx
 
@@ -18,12 +18,12 @@ if [ ! -f "$ANCHORS_TX" ]; then
 fi
 
 # copy channel and anchors tx file to host volume
-HOST_PATH=$HOST_VOLUME_CLIENT
+HOST_PATH=../$HOST_VOLUME_CLIENT
 
 cp $CHANNEL_BLOCK $HOST_PATH
 cp $ANCHORS_TX $HOST_PATH
 
-docker cp ./env.sh ${CLI_CONTAINER_NAME}:/tmp/env.sh
+docker cp ../env.sh ${CLI_CONTAINER_NAME}:/tmp/env.sh
 docker cp ./processJoinChannel.sh ${CLI_CONTAINER_NAME}:${FABRIC_CA_CLIENT_HOME}/processJoinChannel.sh
 docker exec $CLI_CONTAINER_NAME sh -c "chown root:root ${FABRIC_CA_CLIENT_HOME}/*.sh"
 docker exec $CLI_CONTAINER_NAME sh -c "chmod +x  ${FABRIC_CA_CLIENT_HOME}/*.sh"
