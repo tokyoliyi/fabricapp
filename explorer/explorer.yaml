@@ -18,6 +18,7 @@ services:
     container_name: explorerdb.mynetwork.com
     hostname: explorerdb.mynetwork.com
     environment:
+      - TZ=$TIMEZONE
       - DATABASE_DATABASE=fabricexplorer
       - DATABASE_USERNAME=hppoc
       - DATABASE_PASSWORD=password
@@ -37,6 +38,7 @@ services:
     command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && npm run app-start && tail -f /dev/null'
     hostname: explorer.mynetwork.com
     environment:
+      - TZ=$TIMEZONE
       - DATABASE_HOST=explorerdb.mynetwork.com
       - DATABASE_DATABASE=fabricexplorer
       - DATABASE_USERNAME=hppoc
