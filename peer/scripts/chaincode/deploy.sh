@@ -30,9 +30,7 @@ peer lifecycle chaincode queryinstalled
 # 3. approve chaincode definition
 export CC_PKG_ID=`peer lifecycle chaincode queryinstalled -O json | jq -r '.installed_chaincodes[].package_id'`
 export TLS_CA_FILE=${FABRIC_CA_CLIENT_HOME}/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
-export ORDERER_HOST=orderer0.org0.fabric.test
-export ORDERER_HOSTPORT=orderer0.org0.fabric.test:7050
 
-peer lifecycle chaincode approveformyorg -o $ORDERER_HOSTPORT --ordererTLSHostnameOverride $ORDERER_HOST --channelID $APP_CHANNEL_NAME --name $CC_NAME --version $CC_PKG_VER --package-id $CC_PKG_ID --sequence $CC_SEQUENCE --tls true --cafile $TLS_CA_FILE
+peer lifecycle chaincode approveformyorg -o ${ORDERER_HOSTPORT} --ordererTLSHostnameOverride ${ORDERER_HOST} --channelID ${APP_CHANNEL_NAME} --name ${CC_NAME} --version ${CC_PKG_VER} --package-id ${CC_PKG_ID} --sequence ${CC_SEQUENCE} --tls true --cafile ${TLS_CA_FILE}
 
-peer lifecycle chaincode checkcommitreadiness --channelID $APP_CHANNEL_NAME --name $CC_NAME --version $CC_PKG_VER --sequence $CC_SEQUENCE --tls true --cafile $TLS_CA_FILE
+peer lifecycle chaincode checkcommitreadiness --channelID ${APP_CHANNEL_NAME} --name ${CC_NAME} --version ${CC_PKG_VER} --sequence ${CC_SEQUENCE} --tls true --cafile ${TLS_CA_FILE}
