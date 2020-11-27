@@ -18,8 +18,15 @@ if [ ! -f "$ANCHORS_TX" ]; then
 fi
 
 # copy channel and anchors tx file to host volume
-cp $CHANNEL_BLOCK ${CLI_VM_WORKING_DIR}/${APP_CHANNEL_NAME}.block
-cp $ANCHORS_TX ${CLI_VM_WORKING_DIR}/anchors.tx
+# check if cli host workding dir exists
+HOST_PATH=../${CLI_HOST_WORKING_DIR}
+if [ ! -d "${HOST_PATH}" ]; then
+    echo "mkdir ${HOST_PATH}"
+    mkdir -p ${HOST_PATH}
+fi
+
+cp $CHANNEL_BLOCK ${HOST_PATH}/${APP_CHANNEL_NAME}.block
+cp $ANCHORS_TX ${HOST_PATH}/anchors.tx
 
 docker cp ../env.sh ${CLI_CONTAINER_NAME}:/tmp/env.sh
 docker cp ./processJoinChannel.sh ${CLI_CONTAINER_NAME}:${CLI_VM_WORKING_DIR}/processJoinChannel.sh

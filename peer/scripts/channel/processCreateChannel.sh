@@ -8,6 +8,7 @@
 
 INIT_CHANNEL_TX=${CLI_VM_WORKING_DIR}/channel.tx
 ANCHORS_FILE=${CLI_VM_WORKING_DIR}/anchors.tx
+CHANNEL_BLOCK=${CLI_VM_WORKING_DIR}/${APP_CHANNEL_NAME}.block
 
 if [ ! -f "$INIT_CHANNEL_TX" ]; then
     echo "No startup channel tx"
@@ -27,8 +28,8 @@ export TLS_CA_FILE=${FABRIC_CA_CLIENT_HOME}/peers/${PEER_NAME}/tls-msp/tlscacert
 # check if had created and joined
 # todo
 
-peer channel create -c $APP_CHANNEL_NAME -f $INIT_CHANNEL_TX -o $ORDERER_HOSTPORT --outputBlock ${APP_CHANNEL_NAME}.block --tls true --cafile $TLS_CA_FILE
-peer channel join -b ${APP_CHANNEL_NAME}.block
+peer channel create -c $APP_CHANNEL_NAME -f $INIT_CHANNEL_TX -o $ORDERER_HOSTPORT --outputBlock $CHANNEL_BLOCK --tls true --cafile $TLS_CA_FILE
+peer channel join -b $CHANNEL_BLOCK
 
 sleep 3
 

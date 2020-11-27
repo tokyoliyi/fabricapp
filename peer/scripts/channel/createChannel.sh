@@ -17,10 +17,9 @@ if [ ! -f "$ANCHORS_TX" ]; then
     exit 1
 fi
 
-HOST_PATH=../${CLI_HOST_WORKING_DIR}
-
 # copy channel and anchors tx file to host volume
 # check if cli host workding dir exists
+HOST_PATH=../${CLI_HOST_WORKING_DIR}
 if [ ! -d "${HOST_PATH}" ]; then
     echo "mkdir ${HOST_PATH}"
     mkdir -p ${HOST_PATH}
