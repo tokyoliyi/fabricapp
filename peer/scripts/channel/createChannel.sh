@@ -17,15 +17,17 @@ if [ ! -f "$ANCHORS_TX" ]; then
     exit 1
 fi
 
+HOST_PATH=../${CLI_HOST_WORKING_DIR}
+
 # copy channel and anchors tx file to host volume
 # check if cli host workding dir exists
-if [ ! -d "${CLI_HOST_WORKING_DIR}" ]; then
-    echo "mkdir ${CLI_HOST_WORKING_DIR}"
-    mkdir -p ${CLI_HOST_WORKING_DIR}
+if [ ! -d "${HOST_PATH}" ]; then
+    echo "mkdir ${HOST_PATH}"
+    mkdir -p ${HOST_PATH}
 fi
 
-cp $CHANNEL_TX $CLI_HOST_WORKING_DIR/channel.tx
-cp $ANCHORS_TX $CLI_HOST_WORKING_DIR/anchors.tx
+cp $CHANNEL_TX $HOST_PATH/channel.tx
+cp $ANCHORS_TX $HOST_PATH/anchors.tx
 
 # cp scripts into cli container
 # why env.sh must be put in an absolute path? Because we will import it in another shell script, so we need to know where it is.
