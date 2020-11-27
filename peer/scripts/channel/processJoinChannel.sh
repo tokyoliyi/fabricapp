@@ -6,11 +6,9 @@
 
 # check init channel.tx file exist
 
-INIT_CHANNEL_TX=${FABRIC_CA_CLIENT_HOME}/${APP_CHANNEL_NAME}.block
-ANCHORS_FILE=${FABRIC_CA_CLIENT_HOME}/anchors.tx
+INIT_CHANNEL_TX=${CLI_VM_WORKING_DIR}/${APP_CHANNEL_NAME}.block
+ANCHORS_FILE=${CLI_VM_WORKING_DIR}/anchors.tx
 
-ORDERER_HOST=orderer0.org0.fabric.test:7050
-ORDERER_TLS_HOST=orderer0.org0.fabric.test
 
 if [ ! -f "$INIT_CHANNEL_TX" ]; then
     echo "No startup channel tx"
@@ -29,10 +27,11 @@ export TLS_CA_FILE=${FABRIC_CA_CLIENT_HOME}/peers/${PEER_NAME}/tls-msp/tlscacert
 
 peer channel join -b ${APP_CHANNEL_NAME}.block
 
-time sleep 3
+sleep 3
 
 # update anchor peer
-peer channel update -o $ORDERER_HOST --ordererTLSHostnameOverride $ORDERER_TLS_HOST -c $APP_CHANNEL_NAME -f $ANCHORS_FILE --tls true --cafile $TLS_CA_FILE
+peer channel update -o $ORDERER_HOSTPORT --ordererTLSHostnameOverride $ORDERER_HOST -c $APP_CHANNEL_NAME -f $ANCHORS_FILE --tls true --cafile $TLS_CA_FILE
 
+sleep 6
 peer channel list
 peer channel getinfo -c $APP_CHANNEL_NAME
