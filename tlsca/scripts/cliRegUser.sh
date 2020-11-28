@@ -4,6 +4,7 @@
 # $1 is username
 # $2 is passwd
 # $3 is reg type
+# $3 type values are: peer / client / orderer / admin
 
 if [ ! -f "./env.sh" ]; then
     ./init.sh
