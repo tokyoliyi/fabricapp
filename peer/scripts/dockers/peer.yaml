@@ -21,8 +21,6 @@ services:
     image: hyperledger/fabric-peer:$FABRIC_PEER_VERSION
     container_name: $PEER_CONTAINER_NAME
     command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && peer node start'
-    restart: unless-stopped
-    tty: true
     environment:
         - TZ=$TIMEZONE
         - CORE_PEER_ID=${PEER_CONTAINER_NAME}
@@ -39,6 +37,7 @@ services:
         - CORE_PEER_TLS_KEY_FILE=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/keystore/key.pem
         - CORE_PEER_TLS_ROOTCERT_FILE=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
         - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=$DOCKER_NETWORK_NAME
         - FABRIC_LOGGING_SPEC=INFO:KVLEDGER,CHAINCODE.PLATFORM=DEBUG
         - CORE_PEER_GOSSIP_USELEADERELECTION=true
         - CORE_PEER_GOSSIP_ORGLEADER=false
