@@ -4,9 +4,7 @@
 
 . ./env.sh
 
-docker-compose -f ca.yaml down
-docker-compose -f peer.yaml down
-
-docker rm -f logspout
+docker-compose -f dockers/ca.yaml down
+docker-compose -f dockers/peer.yaml down
 
 rm -rf ../volume/*

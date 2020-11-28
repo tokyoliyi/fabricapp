@@ -12,51 +12,38 @@ if [ ! -f "$TLS_CA_CERT_FILE" ]; then
 fi
 
 # 1. start ca docker
-docker-compose -f ca.yaml up -d
+# change file/folder owner permission
+docker-compose -f dockers/ca.yaml up -d
+sudo chown -R ${USER}:${GROUP} $HOST_VOLUME_BASE
 
 echo "sleep 3s"
 sleep 3
 
-# copy all needed file to /tmp/
-docker exec $CA_CONTAINER_NAME sh -c "cd /tmp && rm -f *.sh"
-docker cp $TLS_CA_CERT_FILE $CA_CONTAINER_NAME:/tmp
-
-docker cp ./env.sh $CA_CONTAINER_NAME:/tmp
-docker cp ./enrollTLS.sh $CA_CONTAINER_NAME:/tmp
-docker cp ./enrollCaAdmin.sh $CA_CONTAINER_NAME:/tmp
-docker cp ./registerUser.sh $CA_CONTAINER_NAME:/tmp
-docker cp ./generateOrgMSP.sh $CA_CONTAINER_NAME:/tmp
-docker cp ./examplemspconfig.yaml $CA_CONTAINER_NAME:/tmp
-
-docker exec $CA_CONTAINER_NAME sh -c "chown root:root /tmp/*.sh"
-docker exec $CA_CONTAINER_NAME sh -c "chmod +x /tmp/*.sh"
-
-# enroll current org ca's admin
+# 2. enroll rca's admin user
 echo "enroll current org's ca admin"
-docker exec $CA_CONTAINER_NAME sh -c "/tmp/enrollCaAdmin.sh"
+./enrollCaAdmin.sh
 
-# 2. register/enroll peer for current org
+# 3. register/enroll peer for current org
 echo "register peer and admin user"
-docker exec $CA_CONTAINER_NAME sh -c "/tmp/registerUser.sh"
+./registerUser.sh
 
-# 3. enroll peer's tls msp
+# 4. enroll peer's tls msp
 echo "enroll tls, to get tls msp"
-docker exec $CA_CONTAINER_NAME sh -c "/tmp/enrollTLS.sh"
+./enrollTLS.sh
 
-# 4. generate org's msp structure
+# 5. generate org's msp structure
 # org's msp contain all certificate files(public file)
 echo "generate org's msp structure"
-docker exec $CA_CONTAINER_NAME sh -c "/tmp/generateOrgMSP.sh"
+./generateOrgMSP.sh
 
-# 5. start peer docker container
-echo "Start peer and couchdb..."
-docker-compose -f peer.yaml up -d
-
-# 6. modify file/folder permission
-sudo chown -R ${USER}:${GROUP} $HOST_VOLUME_BASE
-
-# 7. generate connection profile
-echo "Generate connection profile..."
+# 6. generate connection profiles
 ./ccpGenerate.sh
+
+# 7. start peer docker container
+echo "Start peer and couchdb..."
+docker-compose -f dockers/peer.yaml up -d
+
+# 8. change file/foler owner permission
+sudo chown -R ${USER}:${GROUP} $HOST_VOLUME_BASE
 
 echo "Start done."

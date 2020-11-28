@@ -18,7 +18,8 @@ services:
       - FABRIC_CA_SERVER_DEBUG=true
     volumes:
       - $HOST_ETC_HOSTS:/etc/extra_hosts
-      - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
+      - ../$HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
+      - ../$HOST_VOLUME_SERVER:$FABRIC_CA_SERVER_HOME
     networks:
       - mytest
     ports:

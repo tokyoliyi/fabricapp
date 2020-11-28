@@ -5,10 +5,10 @@
 # use the tls-ca-cert.pem ca file
 # peer's tls folder structure
 
-. /tmp/env.sh
+# . /tmp/env.sh
+. ./env.sh
 
-RAW_FABRIC_CA_CLIENT_HOME=$FABRIC_CA_CLIENT_HOME
-ORG_BASE=$FABRIC_CA_CLIENT_HOME
+ORG_BASE=${PWD}/${HOST_VOLUME_CLIENT}
 PEER_BASE=$ORG_BASE/peers
 
 export FABRIC_CA_CLIENT_HOME=$PEER_BASE/$PEER_NAME
@@ -22,9 +22,3 @@ fabric-ca-client enroll -d -u https://$TLS_USER_ID:$TLS_USER_PASSWD@$TLS_CA_SERV
 # rename keystore and tlscacerts's file
 mv $FABRIC_CA_CLIENT_MSPDIR/keystore/*_sk $FABRIC_CA_CLIENT_MSPDIR/keystore/key.pem
 mv $FABRIC_CA_CLIENT_MSPDIR/tlscacerts/*.pem $FABRIC_CA_CLIENT_MSPDIR/tlscacerts/tls-ca-cert.pem
-
-# fix docker container error file/folder permissions
-# default docker volume's user/group is root
-# but the host's current user to need to modify this msp
-# so we need to rewrite the `other group` permission
-# chmod 757 -R $RAW_FABRIC_CA_CLIENT_HOME

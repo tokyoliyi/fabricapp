@@ -50,7 +50,7 @@ services:
     volumes:
         - /var/run:/host/var/run
         - $HOST_ETC_HOSTS:/etc/extra_hosts
-        - $HOST_VOLUME_CLIENT/peers/${PEER_NAME}:$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}
+        - ../$HOST_VOLUME_CLIENT/peers/${PEER_NAME}:$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}
     networks:
         - mytest
     ports:
@@ -82,7 +82,7 @@ services:
     working_dir: $FABRIC_CA_CLIENT_HOME
     volumes:
         - $HOST_ETC_HOSTS:/etc/extra_hosts
-        - $HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
+        - ../$HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
         - $CHAINCODE_HOST_PATH:$CHAINCODE_CLI_PATH
     networks:
         - mytest
