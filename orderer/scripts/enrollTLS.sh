@@ -3,11 +3,12 @@
 # enroll tls, dump out tls-msp for current peer
 # we need to connect tls ca server
 # use the tls-ca-cert.pem ca file
+# peer's tls folder structure
 
-. /tmp/env.sh
+# . /tmp/env.sh
+. ./env.sh
 
-RAW_FABRIC_CA_CLIENT_HOME=$FABRIC_CA_CLIENT_HOME
-ORG_BASE=$FABRIC_CA_CLIENT_HOME
+ORG_BASE=${PWD}/${HOST_VOLUME_CLIENT}
 PEER_BASE=$ORG_BASE/peers
 
 export FABRIC_CA_CLIENT_HOME=$PEER_BASE/$PEER_NAME

@@ -4,15 +4,8 @@
 
 . ./env.sh
 
-docker-compose -f ca.yaml down
-docker-compose -f cli.yaml down
-docker-compose -f orderer.yaml down
-
-docker rm -f logspout
-
-rm $CONFIGTX_FILE
+docker-compose -f dockers/ca.yaml down
+docker-compose -f dockers/orderer.yaml down
 
 rm -rf $HOST_VOLUME_SERVER
 rm -rf $HOST_VOLUME_CLIENT
-rm -rf $CLI_HOST_VOLUME/cli
-

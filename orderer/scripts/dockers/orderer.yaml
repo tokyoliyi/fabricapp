@@ -15,15 +15,26 @@ services:
             - FABRIC_LOGGING_SPEC=INFO
             - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
             - ORDERER_GENERAL_LISTENPORT=${ORDERER_PORT}
-            - ORDERER_GENERAL_GENESISMETHOD=file
-            - ORDERER_GENERAL_GENESISFILE=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/genesis.block
+            - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+
+            # admin
+            - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:${ORDERER_ADMIN_PORT}
+            - ORDERER_ADMIN_TLS_ENABLED=false
+            - ORDERER_ADMIN_TLS_CERTIFICATE=$FABRIC_CA_CLIENT_HOME/users/${ORG_ADMIN_USER_NAME}/msp/signcerts/cert.pem
+            - ORDERER_ADMIN_TLS_PRIVATEKEY=$FABRIC_CA_CLIENT_HOME/users/${ORG_ADMIN_USER_NAME}/msp/keystore/key.pem
+            - ORDERER_ADMIN_TLS_ROOTCAS=[$FABRIC_CA_CLIENT_HOME/users/${ORG_ADMIN_USER_NAME}/msp/cacerts/ca-cert.pem]
+            - ORDERER_ADMIN_TLS_CLIENTAUTHREQUIRED=true
+            - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+
             - ORDERER_GENERAL_LOCALMSPID=${ORG_MSPID}
             - ORDERER_GENERAL_LOCALMSPDIR=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/msp
+
             # enabled TLS
             - ORDERER_GENERAL_TLS_ENABLED=true
             - ORDERER_GENERAL_TLS_CERTIFICATE=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/signcerts/cert.pem
             - ORDERER_GENERAL_TLS_PRIVATEKEY=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/keystore/key.pem
             - ORDERER_GENERAL_TLS_ROOTCAS=[$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem]
+
             - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
             - ORDERER_KAFKA_VERBOSE=true
             - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/signcerts/cert.pem
@@ -31,8 +42,9 @@ services:
             - ORDERER_GENERAL_CLUSTER_ROOTCAS=[$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem]
         volumes:
             - $HOST_ETC_HOSTS:/etc/extra_hosts
-            - $HOST_VOLUME_CLIENT/peers/${PEER_NAME}:$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}
+            - ../$HOST_VOLUME_CLIENT/peers/${PEER_NAME}:$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}
         networks:
             - mytest
         ports:
             - $ORDERER_PORT:$ORDERER_PORT
+            - $ORDERER_ADMIN_PORT:$ORDERER_ADMIN_PORT
