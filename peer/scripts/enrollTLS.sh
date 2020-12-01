@@ -5,7 +5,6 @@
 # use the tls-ca-cert.pem ca file
 # peer's tls folder structure
 
-# . /tmp/env.sh
 . ./env.sh
 
 ORG_BASE=${PWD}/${HOST_VOLUME_CLIENT}

@@ -2,10 +2,7 @@
 
 # this script run in cli container
 
-. ../env.sh
-
-PATH_BASE=${PWD}/../${HOST_VOLUME_CLIENT}
-export FABRIC_CFG_PATH=${FABRIC_CLIENT_BIN_PATH}/config
+. ./chaincode.env
 
 CC_SRC_PATH=$1
 if [ ! -d "$CC_SRC_PATH" ]; then
@@ -53,19 +50,15 @@ echo "export APP_CHANNEL_NAME=$APP_CHANNEL_NAME" >> last.env
 
 # 1. package
 cd $CC_SRC_PATH
+echo "go mode vendor..."
 go mod vendor
 cd ../
 
+echo "package $CC_PKG_NAME"
 peer lifecycle chaincode package ${CC_PKG_NAME} --path ${CC_SRC_PATH} --lang ${CC_SRC_LANG} --label ${CC_LABEL}
 
 # 2. install on peer
-export TLS_CA_FILE=${PATH_BASE}/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
-export CORE_PEER_TLS_ENABLED=true
-export CORE_PEER_LOCALMSPID=$ORG_MSPID
-export CORE_PEER_TLS_ROOTCERT_FILE=${PATH_BASE}/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
-export CORE_PEER_MSPCONFIGPATH=${PATH_BASE}/users/${ORG_ADMIN_USER_NAME}/msp
-export CORE_PEER_ADDRESS=${PEER_CONTAINER_NAME}:${PEER_PORT}
-
+echo "install chaincode ${CC_PKG_NAME}"
 peer lifecycle chaincode install ${CC_PKG_NAME}
 
 peer lifecycle chaincode queryinstalled

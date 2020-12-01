@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# . /tmp/env.sh
 . ./env.sh
 
 ORG_BASE=${PWD}/${HOST_VOLUME_CLIENT}

@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# enroll ca server admin account
-# host dir client/orgX
-# container dir /etc/fabricapp/client
-# host:container ->   client/orgX:/etc/fabricapp/client
-# local msp dir should be client/orgX/ca/admin/msp
-# so container ca home should be /etc/fabricapp/client/ca
-
-# . /tmp/env.sh
-
 . ./env.sh
 
 
