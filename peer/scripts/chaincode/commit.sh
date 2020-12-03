@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# this script run in cli container
-
 if [ -z "$1" ]; then
     echo "No peer address"
     exit 1
