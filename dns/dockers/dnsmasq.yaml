@@ -1,0 +1,20 @@
+version: '3.6'
+
+networks:
+    mytest:
+        name: $NETWORK
+
+services:
+    dnsmasq:
+        image: andyshinn/dnsmasq:$VERSION
+        container_name: dnsmasq
+        command: --log-facility=- --log-queries
+        networks:
+            - mytest
+        volumes:
+            - ../dnsmasq.conf:/etc/dnsmasq.conf
+        ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+        cap_add:
+            - NET_ADMIN
