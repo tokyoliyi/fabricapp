@@ -13,6 +13,9 @@ FABRIC_CA_PORT=$FABRIC_CA_PORT
 PEER_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/msp/signcerts/cert.pem
 CA_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/msp/cacerts/ca-cert.pem
 
+PEER_HOST=${PEER_NAME}.${ORG_NAME}.${TLD}
+PEER_HOSTPORT=${PEER_NAME}.${ORG_NAME}.${TLD}:${PEER_PORT}
+
 function one_line_pem {
     echo "`awk 'NF {sub(/\\n/, ""); printf "%s\\\\\\\n",$0;}' $1`"
 }
@@ -24,8 +27,8 @@ function yaml_ccp {
     sed -e "s/\${NETWORK_NAME}/$1/" \
         -e "s/\${ORG_NAME}/$2/" \
         -e "s/\${ORG_MSPID}/$3/" \
-        -e "s/\${PEER_NAME}/$4/" \
-        -e "s/\${PEER_PORT}/$5/" \
+        -e "s/\${PEER_HOST}/$4/" \
+        -e "s/\${PEER_HOSTPORT}/$5/" \
         -e "s/\${CA_CSR_CN}/$6/" \
         -e "s/\${FABRIC_CA_PORT}/$7/" \
         -e "s#\${PEER_CERT}#$PP#" \
@@ -39,8 +42,8 @@ function json_ccp {
     sed -e "s/\${NETWORK_NAME}/$1/" \
         -e "s/\${ORG_NAME}/$2/" \
         -e "s/\${ORG_MSPID}/$3/" \
-        -e "s/\${PEER_NAME}/$4/" \
-        -e "s/\${PEER_PORT}/$5/" \
+        -e "s/\${PEER_HOST}/$4/" \
+        -e "s/\${PEER_HOSTPORT}/$5/" \
         -e "s/\${CA_CSR_CN}/$6/" \
         -e "s/\${FABRIC_CA_PORT}/$7/" \
         -e "s#\${PEER_CERT}#$PP#" \
@@ -48,5 +51,5 @@ function json_ccp {
         ccpTemplate.json
 }
 
-echo "$(yaml_ccp $NETWORK_NAME $ORG_NAME $ORG_MSPID $PEER_NAME $PEER_PORT $CA_CSR_CN $FABRIC_CA_PORT $PEER_CERT $CA_CERT)" > ${HOST_VOLUME_CLIENT}/connection.yaml
-echo "$(json_ccp $NETWORK_NAME $ORG_NAME $ORG_MSPID $PEER_NAME $PEER_PORT $CA_CSR_CN $FABRIC_CA_PORT $PEER_CERT $CA_CERT)" > ${HOST_VOLUME_CLIENT}/connection.json
+echo "$(yaml_ccp $NETWORK_NAME $ORG_NAME $ORG_MSPID $PEER_HOST $PEER_HOSTPORT $CA_CSR_CN $FABRIC_CA_PORT $PEER_CERT $CA_CERT)" > ${HOST_VOLUME_CLIENT}/connection.yaml
+echo "$(json_ccp $NETWORK_NAME $ORG_NAME $ORG_MSPID $PEER_HOST $PEER_HOSTPORT $CA_CSR_CN $FABRIC_CA_PORT $PEER_CERT $CA_CERT)" > ${HOST_VOLUME_CLIENT}/connection.json

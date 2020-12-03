@@ -11,18 +11,18 @@ organizations:
   ${ORG_NAME}:
     mspid: ${ORG_MSPID}
     peers:
-    - ${PEER_NAME}.${ORG_NAME}.fabric.test
+    - ${PEER_HOST}
     certificateAuthorities:
     - ${CA_CSR_CN}
 peers:
-  ${PEER_NAME}.${ORG_NAME}.fabric.test:
-    url: grpcs://${PEER_NAME}.${ORG_NAME}.fabric.test:${PEER_PORT}
+  ${PEER_HOST}:
+    url: grpcs://${PEER_HOSTPORT}
     tlsCACerts:
       pem: |
           ${PEER_CERT}
     grpcOptions:
-      ssl-target-name-override: ${PEER_NAME}.${ORG_NAME}.fabric.test
-      hostnameOverride: ${PEER_NAME}.${ORG_NAME}.fabric.test
+      ssl-target-name-override: ${PEER_HOST}
+      hostnameOverride: ${PEER_HOST}
 certificateAuthorities:
   ${CA_CSR_CN}:
     url: https://${CA_CSR_CN}:${FABRIC_CA_PORT}

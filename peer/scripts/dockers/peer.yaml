@@ -20,7 +20,7 @@ services:
   peer:
     image: hyperledger/fabric-peer:$FABRIC_PEER_VERSION
     container_name: $PEER_CONTAINER_NAME
-    command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && peer node start'
+    command: sh -c 'peer node start'
     environment:
         - TZ=$TIMEZONE
         - CORE_PEER_ID=${PEER_CONTAINER_NAME}
@@ -48,7 +48,6 @@ services:
         - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=$COUCHDB_PASSWD
     volumes:
         - /var/run:/host/var/run
-        - $HOST_ETC_HOSTS:/etc/extra_hosts
         - ../$HOST_VOLUME_CLIENT/peers/${PEER_NAME}:$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}
     networks:
         - mytest
@@ -62,7 +61,6 @@ services:
   cli.peer:
     image: hyperledger/fabric-tools:$FABRIC_PEER_VERSION
     container_name: $CLI_CONTAINER_NAME
-    command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && /bin/bash'
     tty: true
     stdin_open: true
     restart: unless-stopped
@@ -80,7 +78,6 @@ services:
         - FABRIC_LOGGING_SPEC=INFO
     working_dir: $FABRIC_CA_CLIENT_HOME
     volumes:
-        - $HOST_ETC_HOSTS:/etc/extra_hosts
         - ../$HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
         - $CHAINCODE_HOST_PATH:$CHAINCODE_CLI_PATH
     networks:

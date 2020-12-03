@@ -8,7 +8,7 @@ services:
   rca.peer:
     image: hyperledger/fabric-ca:$FABRIC_CA_VERSION
     container_name: $CA_CONTAINER_NAME
-    command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && fabric-ca-server start -d -b $FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD --cfg.affiliations.allowremove --cfg.identities.allowremove --port $FABRIC_CA_PORT'
+    command: sh -c 'fabric-ca-server start -d -b $FABRIC_CA_ADMIN:$FABRIC_CA_PASSWD --cfg.affiliations.allowremove --cfg.identities.allowremove --port $FABRIC_CA_PORT'
     environment:
       - TZ=$TIMEZONE
       - FABRIC_CA_HOME=$FABRIC_CA_SERVER_HOME
@@ -17,7 +17,6 @@ services:
       - FABRIC_CA_SERVER_CSR_HOSTS=$CA_CSR_HOSTS
       - FABRIC_CA_SERVER_DEBUG=true
     volumes:
-      - $HOST_ETC_HOSTS:/etc/extra_hosts
       - ../$HOST_VOLUME_CLIENT:$FABRIC_CA_CLIENT_HOME
       - ../$HOST_VOLUME_SERVER:$FABRIC_CA_SERVER_HOME
     networks:

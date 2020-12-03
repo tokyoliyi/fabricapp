@@ -39,7 +39,22 @@ fi
 
 # 1. generate new org config policy json file
 echo "1. generate new org config policy json"
-cp newtxconfig.yaml tmp/configtx.yaml
+# check if tmp/configtx.yaml exist
+# user should modify newtxconfig.yaml and cp to this folder
+TX_FILE=tmp/configtx.yaml
+if [ ! -f "$TX_FILE" ]; then
+    echo "No $TX_FILE, user should copy the newtxconfig.yaml it to $TX_FILE, then modify it"
+    exit 1
+fi
+
+# check if new org's msp exist
+NEW_ORG_MSPDIR=$(awk '/MSPDir:/{print $NF}' $TX_FILE)
+echo "NEW_ORG_MSPDIR"
+if [ ! -d "$NEW_ORG_MSPDIR" ]; then
+    echo "No $NEW_ORG_MSPDIR, please copy the new org's msp to $NEW_ORG_MSPDIR"
+    exit 1
+fi
+
 cd tmp/
 export FABRIC_CFG_PATH=$PWD
 configtxgen -printOrg $NEW_MSPID > ${NEW_MSPID}_tmp.json
@@ -53,7 +68,6 @@ rm ${NEW_MSPID}_tmp.json
 
 cd ../
 export FABRIC_CFG_PATH=${FABRIC_CLIENT_BIN_PATH}/config
-
 
 
 # 2. get newest channel config protobuf data
