@@ -29,4 +29,3 @@ peer channel join -b $CHANNEL_BLOCK
 
 sleep 6
 peer channel list
-peer channel getinfo -c $APP_CHANNEL_NAME
