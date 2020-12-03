@@ -5,5 +5,3 @@
 . ./env.sh
 
 docker-compose -f ca.yaml down
-
-sudo rm -rf ../volume/*
