@@ -11,13 +11,6 @@ if [ ! -f "$TLS_CA_CERT_FILE" ]; then
     exit -1
 fi
 
-# check configtx.yaml file and org's msp path exist
-if [ ! -f "$CONFIGTX_FILE" ]; then
-    echo "$CONFIGTX_FILE doesn't exist"
-    exit -1
-fi
-
-
 # 1. start ca docker
 docker-compose -f ./dockers/ca.yaml up -d
 
@@ -47,7 +40,7 @@ echo "Start orderer node..."
 docker-compose -f ./dockers/orderer.yaml up -d
 
 # 7. generate genesis channel block
-./createGenesisChannelBlock.sh
+# ./createGenesisChannelBlock.sh
 
 # 8.
 sudo chown -R ${USER}:${GROUP} $HOST_VOLUME_BASE

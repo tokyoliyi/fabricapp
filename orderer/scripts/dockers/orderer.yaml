@@ -9,7 +9,7 @@ services:
         image: hyperledger/fabric-orderer:$FABRIC_PEER_VERSION
         container_name: $PEER_CONTAINER_NAME
         restart: unless-stopped
-        command: sh -c 'cat /etc/extra_hosts >> /etc/hosts && orderer'
+        command: sh -c 'orderer'
         environment:
             - TZ=$TIMEZONE
             - FABRIC_LOGGING_SPEC=INFO
@@ -20,9 +20,9 @@ services:
             # admin
             - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:${ORDERER_ADMIN_PORT}
             - ORDERER_ADMIN_TLS_ENABLED=false
-            - ORDERER_ADMIN_TLS_CERTIFICATE=$FABRIC_CA_CLIENT_HOME/users/${ORG_ADMIN_USER_NAME}/msp/signcerts/cert.pem
-            - ORDERER_ADMIN_TLS_PRIVATEKEY=$FABRIC_CA_CLIENT_HOME/users/${ORG_ADMIN_USER_NAME}/msp/keystore/key.pem
-            - ORDERER_ADMIN_TLS_ROOTCAS=[$FABRIC_CA_CLIENT_HOME/users/${ORG_ADMIN_USER_NAME}/msp/cacerts/ca-cert.pem]
+            - ORDERER_ADMIN_TLS_CERTIFICATE=""
+            - ORDERER_ADMIN_TLS_PRIVATEKEY=""
+            - ORDERER_ADMIN_TLS_ROOTCAS=[]
             - ORDERER_ADMIN_TLS_CLIENTAUTHREQUIRED=true
             - ORDERER_CHANNELPARTICIPATION_ENABLED=true
 
@@ -41,7 +41,6 @@ services:
             - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/keystore/key.pem
             - ORDERER_GENERAL_CLUSTER_ROOTCAS=[$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem]
         volumes:
-            - $HOST_ETC_HOSTS:/etc/extra_hosts
             - ../$HOST_VOLUME_CLIENT/peers/${PEER_NAME}:$FABRIC_CA_CLIENT_HOME/peers/${PEER_NAME}
         networks:
             - mytest

@@ -30,7 +30,7 @@ export FABRIC_CA_CLIENT_HOME=$CA_BASE/admin
 export FABRIC_CA_CLIENT_MSPDIR=$FABRIC_CA_CLIENT_HOME/msp
 export FABRIC_CA_CLIENT_TLS_CERTFILES=$CA_FILE
 
-peer_name=$PEER_NAME.$ORG_NAME.fabric.test
+peer_name=$PEER_NAME.$ORG_NAME.$TLD
 
 fabric-ca-client register -d --id.name $ORG_ADMIN_USER_NAME --id.secret $ORG_ADMIN_USER_PASSWD --id.type admin --id.attrs $ORG_ADMIN_USER_ATTRS -u https://$CA_HOST
 fabric-ca-client register -d --id.name $peer_name --id.secret $PEER_PASSWD --id.type orderer -u https://$CA_HOST

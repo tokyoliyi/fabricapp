@@ -22,3 +22,5 @@ fabric-ca-client enroll -d -u https://$TLS_USER_ID:$TLS_USER_PASSWD@$TLS_CA_SERV
 # rename keystore and tlscacerts's file
 mv $FABRIC_CA_CLIENT_MSPDIR/keystore/*_sk $FABRIC_CA_CLIENT_MSPDIR/keystore/key.pem
 mv $FABRIC_CA_CLIENT_MSPDIR/tlscacerts/*.pem $FABRIC_CA_CLIENT_MSPDIR/tlscacerts/tls-ca-cert.pem
+
+cp $FABRIC_CA_CLIENT_MSPDIR/signcerts/cert.pem ./orgmsps/ordererpeertls/cert.pem

@@ -5,24 +5,27 @@
 . ./env.sh
 
 # check if configtx.yaml file exists
+CONFIGTX_FILE=./orgmsps/configtx.yaml
 if [ ! -f "$CONFIGTX_FILE" ]; then
-    echo "No $CONFIGTX_FILE"
+    echo "No $CONFIGTX_FILE, please copy from ./config/txconfig.yaml, then modify it"
     exit 1
 fi
 
-if [ ! -z "$1" ]; then
-    PROFILE_CHANNEL_NAME=$1
+PROFILE_CHANNEL_NAME=$1
+if [ -z "$PROFILE_CHANNEL_NAME" ]; then
+    echo "No profile channel name"
+    exit 1
 fi
 
-if [ ! -z "$2" ]; then
-    APP_CHANNEL_NAME=$2
+APP_CHANNEL_NAME=$2
+if [ -z "$APP_CHANNEL_NAME" ]; then
+    echo "No channel name"
+    exit 1
 fi
 
-ORG_BASE=${PWD}/${CLI_HOST_VOLUME}
+WORKDIR=./orgmsps
 
-cp $CONFIGTX_FILE $ORG_BASE/configtx.yaml
-
-cd $ORG_BASE
+cd $WORKDIR
 
 export FABRIC_CFG_PATH=$PWD
 
