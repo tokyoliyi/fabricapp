@@ -44,6 +44,10 @@ fi
 if [ ! -d "$BIN_PATH" ]; then
     echo "Donwload fabric binary files from github..."
     DLURL=$FABRIC_CLIENT_BIN_URL
+    if [ $FABRIC_CLIENT_BIN_OSARCH = $FABRIC_CLIENT_BIN_ARCH_OSX ]; then
+        DLURL=$FABRIC_CLIENT_BIN_OSX_URL
+    fi
+    
     DSTFILE=/tmp/fabricBin.${FABRIC_CLIENT_BIN_VERSION}.tar.gz
     wget -c $DLURL -O $DSTFILE
     tar zxvf $DSTFILE -C $FABRIC_CLIENT_BIN_PATH
@@ -53,6 +57,9 @@ fi
 if [ ! -f "$BIN_PATH/fabric-ca-client" ]; then
     echo "Download fabric-ca binary files from github..."
     DLURL=$FABRIC_CA_CLIENT_BIN_URL
+    if [ $FABRIC_CLIENT_BIN_OSARCH = $FABRIC_CLIENT_BIN_ARCH_OSX ]; then
+        DLURL=$FABRIC_CA_CLIENT_BIN_OSX_URL
+    fi
     DSTFILE=/tmp/fabricCaBin.${FABRIC_CA_VERSION}.tar.gz
     wget -c $DLURL -O $DSTFILE
     TMP=/tmp/fcabinpath

@@ -40,10 +40,14 @@ else
     export FABRIC_CLIENT_BIN_OSARCH=$FABRIC_CLIENT_BIN_ARCH_LINUX
 fi
 
-
+# get peer/configtxgen etc.
 if [ ! -d "$BIN_PATH" ]; then
     echo "Donwload fabric binary files from github..."
     DLURL=$FABRIC_CLIENT_BIN_URL
+    if [ $FABRIC_CLIENT_BIN_OSARCH = $FABRIC_CLIENT_BIN_ARCH_OSX ]; then
+        DLURL=$FABRIC_CLIENT_BIN_OSX_URL
+    fi
+    
     DSTFILE=/tmp/fabricBin.${FABRIC_CLIENT_BIN_VERSION}.tar.gz
     wget -c $DLURL -O $DSTFILE
     tar zxvf $DSTFILE -C $FABRIC_CLIENT_BIN_PATH
@@ -53,12 +57,30 @@ fi
 if [ ! -f "$BIN_PATH/fabric-ca-client" ]; then
     echo "Download fabric-ca binary files from github..."
     DLURL=$FABRIC_CA_CLIENT_BIN_URL
+    if [ $FABRIC_CLIENT_BIN_OSARCH = $FABRIC_CLIENT_BIN_ARCH_OSX ]; then
+        DLURL=$FABRIC_CA_CLIENT_BIN_OSX_URL
+    fi
     DSTFILE=/tmp/fabricCaBin.${FABRIC_CA_VERSION}.tar.gz
     wget -c $DLURL -O $DSTFILE
     TMP=/tmp/fcabinpath
     mkdir -p $TMP
     tar zxvf $DSTFILE -C $TMP
     cp $TMP/bin/fabric-ca-client $BIN_PATH
+fi
+
+# get jq
+# https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+# https://github.com/stedolan/jq/releases/download/jq-1.6/jq-osx-amd64
+if [ ! -f "$BIN_PATH/jq" ]; then
+    echo "Download jq files from github..."
+    DLURL="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64"
+    if [ $FABRIC_CLIENT_BIN_OSARCH = $FABRIC_CLIENT_BIN_ARCH_OSX ]; then
+        DLURL="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-osx-amd64"
+    fi
+    DSTFILE=/tmp/jq-cli
+    wget -c $DLURL -O $DSTFILE
+    cp /tmp/jq-cli $BIN_PATH/jq
+    chmod +x $BIN_PATH/jq
 fi
 
 echo "export PATH=${BIN_PATH}:\$PATH" >> /tmp/env.sh
