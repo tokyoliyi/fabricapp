@@ -353,6 +353,16 @@ Channel: &ChannelDefaults
 #
 ################################################################################
 Profiles:
+    DemoChannel:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org1
 
     TwoOrgsAppChannel:
         <<: *ChannelDefaults
