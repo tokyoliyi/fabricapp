@@ -22,7 +22,7 @@ cp $TLS_CA_FILE $MSPDIR/tlscacerts/tls-ca-cert.pem
 cp ./config/mspconfig.yaml $MSPDIR/config.yaml
 
 # copy to orgmsps folder, used for generate genesis channel block
-ORDERER_MSP_DIR=./orgmsps/orderer
+ORDERER_MSP_DIR=./orgmsps/$ORG_NAME
 rm -rf $ORDERER_MSP_DIR
 
 mkdir -p $ORDERER_MSP_DIR
