@@ -8,6 +8,7 @@ import yaml
 
 CONN_FILE_VERSION = "1.0.0"
 BASE_PATH = f"../volume/client"
+DEFAULT_CREDENTIAL_STORE = "/tmp/.fabricappworkdir/identitypublickey"
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -25,12 +26,17 @@ def parse_args():
     parser.add_argument('--tlsca', help=u'tlsca host port, e.g tlsca.fabric.test:7054')
     parser.add_argument('--tlscacert', help=u'tls ca cert file path')
 
+    parser.add_argument('--userpasswd', help=u'enroll user:passwd')
+
     args = parser.parse_args()
     return args
 
 def client_format(org_name):
     client = {
         "organization": org_name,
+        "credentialStore": {
+            "path": DEFAULT_CREDENTIAL_STORE,
+        },
         "connection": {
             "timeout": {
                 "peer": {
@@ -51,6 +57,7 @@ def org_format(org_name, mspid, peer0, rca0):
             "certificateAuthorities": [
                 rca0,
             ],
+            "cryptoPath": DEFAULT_CREDENTIAL_STORE,
         },
     }
     return org
@@ -71,7 +78,7 @@ def peer_format(peer_host, peer_grpc, peer_tls_cert):
     
     return peer
 
-def ca_format(ca_name, ca_url, rca_cert):
+def ca_format(ca_name, ca_url, rca_cert, enroll_id="", enroll_secret=""):
     ca = {
         ca_name: {
             "url": ca_url,
@@ -86,6 +93,14 @@ def ca_format(ca_name, ca_url, rca_cert):
             },
         },
     }
+    if enroll_id:
+        reg = {
+            "registrar": {
+                "enrollId": enroll_id,
+                "enrollSecret": enroll_secret,
+            },
+        }
+        ca[ca_name].update(reg)
     return ca
 
 def json_format(name, client, orgs, peers, cas):
@@ -138,12 +153,17 @@ def run():
     tlsca_url = f"https://{tlsca_host_port}"
     tlsca_cert = args.tlscacert
 
+    user_passwd = args.userpasswd
+    user_passwd = user_passwd.split(':')
+    enroll_id = user_passwd[0]
+    enroll_passwd = user_passwd[1]
+
     # todo, check all arguments have benn passed
 
     client = client_format(org_name)
     org = org_format(org_name, mspid, peer_host, rca_host)
     peer = peer_format(peer_host, peer_grpcs, read_cert_file(peer_tls_cert))
-    rca = ca_format(rca_host, rca_url, read_cert_file(rca_cert))
+    rca = ca_format(rca_host, rca_url, read_cert_file(rca_cert), enroll_id, enroll_passwd)
     tlsca = ca_format(tlsca_host, tlsca_url, read_cert_file(tlsca_cert))
     cas = {}
     cas.update(rca)

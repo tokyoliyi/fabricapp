@@ -16,4 +16,6 @@ RCA_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/msp/cacerts/ca-cert.pem
 TLS_CA_HOSTPORT=$TLS_CA_SERVER_HOST
 TLS_CA_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
 
-python generateConnectionFile.py --project $NETWORK_NAME --orgname $ORG_NAME --mspid $ORG_MSPID --peer $PEER_HOSTPORT --peertlscert $PEER_TLS_CERT --rca $RCA_HOSTPORT --rcacert $RCA_CERT --tlsca $TLS_CA_HOSTPORT --tlscacert $TLS_CA_CERT
+USER_PASSWD=$ORG_ADMIN_USER_NAME:$ORG_ADMIN_USER_PASSWD
+
+python generateConnectionFile.py --project $NETWORK_NAME --orgname $ORG_NAME --mspid $ORG_MSPID --peer $PEER_HOSTPORT --peertlscert $PEER_TLS_CERT --rca $RCA_HOSTPORT --rcacert $RCA_CERT --tlsca $TLS_CA_HOSTPORT --tlscacert $TLS_CA_CERT --userpasswd $USER_PASSWD
