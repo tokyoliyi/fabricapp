@@ -2,54 +2,18 @@
 
 . ./env.sh
 
-
 NETWORK_NAME=$DOCKER_NETWORK_NAME
+
 ORG_NAME=$ORG_NAME
 ORG_MSPID=$ORG_MSPID
-PEER_NAME=$PEER_NAME
-PEER_PORT=$PEER_PORT
-CA_CSR_CN=$CA_CSR_CN
-FABRIC_CA_PORT=$FABRIC_CA_PORT
-PEER_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/msp/signcerts/cert.pem
-CA_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/msp/cacerts/ca-cert.pem
 
-PEER_HOST=${PEER_NAME}.${ORG_NAME}.${TLD}
 PEER_HOSTPORT=${PEER_NAME}.${ORG_NAME}.${TLD}:${PEER_PORT}
+PEER_TLS_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/tls-msp/signcerts/cert.pem
 
-function one_line_pem {
-    echo "`awk 'NF {sub(/\\n/, ""); printf "%s\\\\\\\n",$0;}' $1`"
-}
+RCA_HOSTPORT=$CA_CSR_CN:$FABRIC_CA_PORT
+RCA_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/msp/cacerts/ca-cert.pem
 
+TLS_CA_HOSTPORT=$TLS_CA_SERVER_HOST
+TLS_CA_CERT=${HOST_VOLUME_CLIENT}/peers/${PEER_NAME}/tls-msp/tlscacerts/tls-ca-cert.pem
 
-function yaml_ccp {
-    local PP=$(one_line_pem $8)
-    local CP=$(one_line_pem $9)
-    sed -e "s/\${NETWORK_NAME}/$1/" \
-        -e "s/\${ORG_NAME}/$2/" \
-        -e "s/\${ORG_MSPID}/$3/" \
-        -e "s/\${PEER_HOST}/$4/" \
-        -e "s/\${PEER_HOSTPORT}/$5/" \
-        -e "s/\${CA_CSR_CN}/$6/" \
-        -e "s/\${FABRIC_CA_PORT}/$7/" \
-        -e "s#\${PEER_CERT}#$PP#" \
-        -e "s#\${CA_CERT}#$CP#" \
-        ccpTemplate.yaml | sed -e $'s/\\\\n/\\\n          /g'
-}
-
-function json_ccp {
-    local PP=$(one_line_pem $8)
-    local CP=$(one_line_pem $9)
-    sed -e "s/\${NETWORK_NAME}/$1/" \
-        -e "s/\${ORG_NAME}/$2/" \
-        -e "s/\${ORG_MSPID}/$3/" \
-        -e "s/\${PEER_HOST}/$4/" \
-        -e "s/\${PEER_HOSTPORT}/$5/" \
-        -e "s/\${CA_CSR_CN}/$6/" \
-        -e "s/\${FABRIC_CA_PORT}/$7/" \
-        -e "s#\${PEER_CERT}#$PP#" \
-        -e "s#\${CA_CERT}#$CP#" \
-        ccpTemplate.json
-}
-
-echo "$(yaml_ccp $NETWORK_NAME $ORG_NAME $ORG_MSPID $PEER_HOST $PEER_HOSTPORT $CA_CSR_CN $FABRIC_CA_PORT $PEER_CERT $CA_CERT)" > ${HOST_VOLUME_CLIENT}/connection.yaml
-echo "$(json_ccp $NETWORK_NAME $ORG_NAME $ORG_MSPID $PEER_HOST $PEER_HOSTPORT $CA_CSR_CN $FABRIC_CA_PORT $PEER_CERT $CA_CERT)" > ${HOST_VOLUME_CLIENT}/connection.json
+python generateConnectionFile.py --project $NETWORK_NAME --orgname $ORG_NAME --mspid $ORG_MSPID --peer $PEER_HOSTPORT --peertlscert $PEER_TLS_CERT --rca $RCA_HOSTPORT --rcacert $RCA_CERT --tlsca $TLS_CA_HOSTPORT --tlscacert $TLS_CA_CERT
