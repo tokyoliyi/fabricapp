@@ -59,7 +59,7 @@ def peer_format(peer_host, peer_grpc, peer_tls_cert):
     peer = {
         peer_host: {
             "url": peer_grpc,
-            "tlsCaCerts": {
+            "tlsCACerts": {
                 "pem": peer_tls_cert,
             },
             "grpcOptions": {
@@ -76,7 +76,7 @@ def ca_format(ca_name, ca_url, rca_cert):
         ca_name: {
             "url": ca_url,
             "caName": ca_name,
-            "tlsCaCerts": {
+            "tlsCACerts": {
                 "pem": [
                     rca_cert,
                 ]
@@ -102,7 +102,9 @@ def json_format(name, client, orgs, peers, cas):
 
 def read_cert_file(path):
     with open(path, 'r') as f:
-        return f.read()
+        data = f.read()
+        data = data.strip()
+        return data
 
 def write_json_format(org_name, data):
     path = f"{BASE_PATH}/{org_name}/connection.json"
