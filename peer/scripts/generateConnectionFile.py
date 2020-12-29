@@ -9,6 +9,7 @@ import yaml
 CONN_FILE_VERSION = "1.0.0"
 BASE_PATH = f"../volume/client"
 DEFAULT_CREDENTIAL_STORE = "/tmp/.fabricappworkdir/identitypublickey"
+DEFAULT_MSP_DIR = "/tmp/.fabricappworkdir/msp"
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -36,6 +37,9 @@ def client_format(org_name):
         "organization": org_name,
         "credentialStore": {
             "path": DEFAULT_CREDENTIAL_STORE,
+            "cryptoStore": {
+                "path": DEFAULT_MSP_DIR,
+            },
         },
         "connection": {
             "timeout": {
