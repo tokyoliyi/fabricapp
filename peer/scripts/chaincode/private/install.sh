@@ -37,7 +37,7 @@ fi
 CC_END_POLICY=$6
 if [ -z "$CC_END_POLICY" ]; then
     echo "No private endorse policy"
-    echo "e.g OR('org1MSP.member', 'org2MSP.member')"
+    echo "e.g \"OR('org1MSP.member','org2MSP.member')\""
     exit 1
 fi
 
