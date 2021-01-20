@@ -2,6 +2,7 @@
 
 if [ -z "$1" ]; then
     echo "No peer address"
+    echo "e.g ./commit.sh peer0.org1.fabric.test:7051 peer0.org2.fabric.test:7051"
     exit 1
 fi
 
